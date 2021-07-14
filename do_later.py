@@ -3,25 +3,27 @@ from time import sleep
 
 # I apologise for this file
 
-class DoLater(Thread):
-    def __init__(self, func, seconds):
+class Fork(Thread):
+    def __init__(self, func):
         Thread.__init__(self)
         self.func = func
-        self.seconds = seconds
         self.start()
     
     def run(self):
-        sleep(self.seconds)
         self.func()
 
-class RepeatLater(Thread):
+class DoLater:
     def __init__(self, func, seconds):
-        Thread.__init__(self)
-        self.func = func
-        self.seconds = seconds
-        self.start()
+        def laterer():
+            sleep(seconds)
+            func()
+        Fork(laterer)
+
+class RepeatLater:
+    def __init__(self, func, seconds):
+        def repeater():
+            while (True):
+                sleep(seconds)
+                func()
+        Fork(repeater)
     
-    def run(self):
-        while (True):
-            sleep(self.seconds)
-            self.func()
