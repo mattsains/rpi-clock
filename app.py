@@ -1,9 +1,9 @@
 from PIL import ImageTk, Image
 from tkinter import Tk, Canvas
 import sys
-from do_later import Fork
+from src import do_later
 
-import ui
+from src import ui
 
 is_linux = sys.platform == "linux"
 
@@ -28,7 +28,7 @@ else:
             exit(0)
     
     ui = ui.Ui(update)
-    Fork(ui.start)
+    do_later.Fork(ui.start)
 
     root.bind("<KeyPress>", lambda k: ui.receive_key(0 if k.keysym == "z" else 1))
     root.mainloop()

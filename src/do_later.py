@@ -26,4 +26,11 @@ class RepeatLater:
                 sleep(seconds)
                 func()
         Fork(repeater)
-    
+
+class RepeatStartingNow:
+    def __init__(self, func, seconds):
+        def repeater():
+            while (True):
+                func()
+                sleep(seconds)
+        Fork(repeater)
