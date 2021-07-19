@@ -1,5 +1,4 @@
 from PIL import ImageTk, Image
-from tkinter import Tk, Canvas
 import sys
 from src import do_later
 
@@ -8,9 +7,22 @@ from src import ui
 is_linux = sys.platform == "linux"
 
 if (is_linux):
-    pass # todo Raspberry code.
+    from inky import InkyPHAT
+    inky_display = InkyPHAT("yellow")
+
+
+    def update(i: Image):
+        try:
+            inky_display.set_image(i)
+            inky_display.show()
+        except:
+            exit(0)
+    
+    ui = ui.Ui(update)
+    do_later.Fork(ui.start)
 else:
     # hacky tkinter code for testing on a desktop environment
+    from tkinter import Tk, Canvas
     last_image = [None]
     root = Tk()
     root.title("Clock preview")

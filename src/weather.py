@@ -2,10 +2,13 @@ from typing import Callable, List
 from dataclasses import dataclass
 import re
 from datetime import datetime, timedelta
-from pytz import timezone
+from pytz import UTC, timezone
 from noaa_sdk import NOAA
 from .do_later import Fork
+
 zip_code = 98102
+
+noaa_time_format = '%Y-%m-%dT%H:%M:%S%z'
 
 @dataclass
 class WeatherInfo:
@@ -59,7 +62,7 @@ def get_weather(post_result: Callable[[List[WeatherInfo]], None]):
         weather.insert(0, WeatherInfo(
             time="Now",
             icon=image_for_obs(obs['icon']),
-            temp=f'{c_to_f(obs["temperature"]["value"])}°F'
+            temp=f'{c_to_f(obs["temperature"]["value"])}°'
         ))
         post_result(weather)
     Fork(get_observation)
@@ -74,10 +77,10 @@ def get_weather(post_result: Callable[[List[WeatherInfo]], None]):
             forecasts_to_check = long_forecasts
         
         for forecast in forecasts_to_check:
-            if (required_forecasts[label] > datetime.strptime(forecast['startTime'], '%Y-%m-%dT%H:%M:%S%z') and required_forecasts[label] < datetime.strptime(forecast['endTime'],'%Y-%m-%dT%H:%M:%S%z')):
+            if (required_forecasts[label] > datetime.strptime(forecast['startTime'], noaa_time_format) and required_forecasts[label] < datetime.strptime(forecast['endTime'], noaa_time_format)):
                 weather.append(WeatherInfo(
                     time=label,
                     icon=image_for_obs(forecast['icon']),
-                    temp=f'{forecast["temperature"]}°{forecast["temperatureUnit"]}'
+                    temp=f'{forecast["temperature"]}°'
                 ))
                 post_result(weather)
