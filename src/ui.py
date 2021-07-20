@@ -15,9 +15,9 @@ WHITE = 0
 BLACK = 1
 YELLOW = 2
 
-sans = str(opensans(font_weight=600, italic=False).path)
+sans = str(opensans(font_weight=1000, italic=False).path)
 
-SANS_40 = ImageFont.truetype(sans, 40)
+SANS_40 = ImageFont.truetype(sans, 50)
 SANS_20 = ImageFont.truetype(sans, 20)
 SANS_10 = ImageFont.truetype(sans, 10)
 
@@ -57,16 +57,18 @@ class Ui:
         ], 'RGB')
         img_drawer = ImageDraw.Draw(self.img)
 
-        draw_shadow_text(img_drawer, (int(display_size[0]/2), 20), self.state.timestring, BLACK, YELLOW, font=SANS_40, anchor='mm')
+        time_font_offset = SANS_40.getsize(self.state.timestring)
+        draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 0), self.state.timestring, BLACK, YELLOW, font=SANS_40)
 
         if (self.state.weather != None):
             position = 5
             for weather in self.state.weather:
                 weather_icon = Image.open(f'icons/{weather.icon}.png')
                 self.img.paste(weather_icon, (position, display_size[1]-50))
-                img_drawer.text((position + 25, display_size[1]-55), weather.time, BLACK, font=SANS_10, anchor='mt')
-
-                draw_outlined_text(img_drawer, (position + 25, display_size[1]-45), weather.temp, BLACK, WHITE, font=SANS_20, anchor='mt')
+                time_font_offset = SANS_10.getsize(weather.time)
+                img_drawer.text((int(position + 25 - time_font_offset[0]/2), display_size[1]-60), weather.time, BLACK, font=SANS_10)
+                temp_font_offset = SANS_20.getsize(weather.temp)
+                draw_outlined_text(img_drawer, (int(position + 25 - temp_font_offset[0]/2), display_size[1]-50), weather.temp, BLACK, WHITE, font=SANS_20)
                 position += 50
 
         self.ask_redraw(self.img)
