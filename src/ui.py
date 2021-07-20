@@ -10,16 +10,16 @@ from .do_later import RepeatStartingNow
 from .weather import WeatherInfo, get_weather
 from .ui_helpers import draw_outlined_text, draw_shadow_text
 
-display_size = (212, 104)
+display_size = (250, 122)
 WHITE = 0
 BLACK = 1
 YELLOW = 2
 
 sans = str(opensans(font_weight=600, italic=False).path)
 
-ARIAL_40 = ImageFont.truetype(sans, 40)
-ARIAL_20 = ImageFont.truetype(sans, 20)
-ARIAL_10 = ImageFont.truetype(sans, 10)
+SANS_40 = ImageFont.truetype(sans, 40)
+SANS_20 = ImageFont.truetype(sans, 20)
+SANS_10 = ImageFont.truetype(sans, 10)
 
 
 @dataclass
@@ -57,16 +57,16 @@ class Ui:
         ], 'RGB')
         img_drawer = ImageDraw.Draw(self.img)
 
-        draw_shadow_text(img_drawer, (105, 20), self.state.timestring, BLACK, YELLOW, font=ARIAL_40, anchor='mm')
+        draw_shadow_text(img_drawer, (int(display_size[0]/2), 20), self.state.timestring, BLACK, YELLOW, font=SANS_40, anchor='mm')
 
         if (self.state.weather != None):
             position = 5
             for weather in self.state.weather:
                 weather_icon = Image.open(f'icons/{weather.icon}.png')
-                self.img.paste(weather_icon, (position, 54))
-                img_drawer.text((position + 25, 46), weather.time, BLACK, font=ARIAL_10, anchor='mt')
+                self.img.paste(weather_icon, (position, display_size[1]-50))
+                img_drawer.text((position + 25, display_size[1]-55), weather.time, BLACK, font=SANS_10, anchor='mt')
 
-                draw_outlined_text(img_drawer, (position + 25, 54), weather.temp, BLACK, WHITE, font=ARIAL_20, anchor='mt')
+                draw_outlined_text(img_drawer, (position + 25, display_size[1]-45), weather.temp, BLACK, WHITE, font=SANS_20, anchor='mt')
                 position += 50
 
         self.ask_redraw(self.img)

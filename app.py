@@ -22,15 +22,15 @@ else:
     last_image = [None]
     root = Tk()
     root.title("Clock preview")
-    root.geometry("430x214")
+    root.geometry("510x252")
     cv = Canvas()
     cv.pack(side='top', fill='both', expand='yes')
 
     def update(i: Image):
         try:
-            i = i.resize((424, 208), Image.BOX)
+            i = i.resize((500, 244), Image.BOX)
             last_image[0] = ImageTk.PhotoImage(i)
-            cv.create_rectangle(2, 2, 427, 211, outline="black", fill="white")
+            cv.create_rectangle(2, 2, 502, 246, outline="black", fill="white")
             cv.create_image(3, 3, image=last_image[0], anchor='nw')
         except:
             exit(0)
