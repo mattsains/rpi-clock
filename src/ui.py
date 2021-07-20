@@ -64,7 +64,8 @@ class Ui:
         draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 0), self.state.timestring, BLACK, YELLOW, font=SANS_50)
 
         if (self.state.weather != None):
-            position = 5
+            extra_space = display_size[0] - len(self.state.weather) * 50
+            position = int(extra_space/2)
             for weather in self.state.weather:
                 weather_icon = Image.open(f'icons/{weather.icon}.png')
                 self.img.paste(weather_icon, (position, display_size[1]-50))

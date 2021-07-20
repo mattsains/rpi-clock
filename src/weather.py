@@ -1,3 +1,4 @@
+from time import strftime
 from typing import Callable, List
 from dataclasses import dataclass
 import re
@@ -97,11 +98,13 @@ def get_weather(post_result: Callable[[List[WeatherInfo]], None]):
     two_hours = now + timedelta(hours=2)
     tomorrow = datetime.replace(now, day=today.day + 1, hour=11)
     next_day = datetime.replace(tomorrow, day=today.day + 2)
+    next_next_day = datetime.replace(tomorrow, day=today.day + 3)
 
     required_forecasts = {
         '2hr': two_hours,
         tomorrow.strftime('%a'): tomorrow,
-        next_day.strftime('%a'): next_day
+        next_day.strftime('%a'): next_day,
+        next_next_day.strftime('%a'): next_next_day
     }
 
     weather: List[WeatherInfo] = []
