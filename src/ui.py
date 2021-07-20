@@ -15,7 +15,7 @@ WHITE = 0
 BLACK = 1
 YELLOW = 2
 
-sans = str(opensans(font_weight=1000, italic=False).path)
+sans = str(opensans(font_weight=2000, italic=False).path)
 
 SANS_50 = ImageFont.truetype(sans, 50)
 SANS_20 = ImageFont.truetype(sans, 20)
@@ -25,6 +25,7 @@ SANS_10 = ImageFont.truetype(sans, 10)
 @dataclass
 class InternalDisplayState:
     timestring: Optional[str] = None
+    datestring: Optional[str] = None
     weather: Optional[List[WeatherInfo]] = None
     key: int = None
 
@@ -50,6 +51,7 @@ class Ui:
 
     def update(self):
         self.state.timestring = datetime.now().strftime("%I:%M %p").strip('0')
+        self.state.datestring = datetime.now().strftime("%a, %B %d")
     
     def draw(self):
         self.img = Image.new("P", display_size)
@@ -60,8 +62,11 @@ class Ui:
         ], 'RGB')
         img_drawer = ImageDraw.Draw(self.img)
 
+
+        date_font_offset = SANS_20.getsize(self.state.datestring)
+        img_drawer.text((int((display_size[0] - date_font_offset[0])/2), -5), self.state.datestring, BLACK, font=SANS_20)
         time_font_offset = SANS_50.getsize(self.state.timestring)
-        draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 0), self.state.timestring, BLACK, YELLOW, font=SANS_50)
+        draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 6), self.state.timestring, BLACK, YELLOW, font=SANS_50)
 
         if (self.state.weather != None):
             extra_space = display_size[0] - len(self.state.weather) * 50
