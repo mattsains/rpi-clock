@@ -1,4 +1,4 @@
-from time import strftime
+from time import sleep, strftime
 from typing import Callable, List
 from dataclasses import dataclass
 import re
@@ -111,18 +111,35 @@ def get_weather(post_result: Callable[[List[WeatherInfo]], None]):
 
     n = NOAA()
     def get_observation():
-        obs = next(n.get_observations(zip_code, 'US'))
-    
-        weather.insert(0, WeatherInfo(
-            time="Now",
-            icon=image_for_obs(obs['icon']),
-            temp=f'{c_to_f(obs["temperature"]["value"])}°'
-        ))
+        weather_obj = None
+        while (weather_obj == None):
+            try:
+                obs = next(n.get_observations(zip_code, 'US'))
+        
+                weather_obj = WeatherInfo(
+                    time="Now",
+                    icon=image_for_obs(obs['icon']),
+                    temp=f'{c_to_f(obs["temperature"]["value"])}°'
+                )
+            except:
+                sleep(1)
+        weather.insert(0, weather_obj)
         post_result(weather)
     Fork(get_observation)
 
-    hourly_forecasts = n.get_forecasts(zip_code, 'US')
-    long_forecasts = n.get_forecasts(zip_code, 'US', type="forecast")
+    hourly_forecasts = None
+    while (hourly_forecasts == None):
+        try:
+            hourly_forecasts = n.get_forecasts(zip_code, 'US')
+        except:
+            sleep(1)
+    
+    long_forecasts = None
+    while (long_forecasts == None):
+        try:
+            long_forecasts = n.get_forecasts(zip_code, 'US', type="forecast")
+        except:
+            sleep(1)
 
     for label in required_forecasts:
         if required_forecasts[label] - now < timedelta(hours=10): 
