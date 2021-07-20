@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c60a125a8a06b9c432b483fa700a53ccde1de40e5144bd6d0712dac72c1ae73d"
+            "sha256": "dff03d3b4e4fa484cdf3234ea387f2600f0d8928a7cc0836b7f6e7bfebd54608"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -29,15 +29,6 @@
                 "sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"
             ],
             "version": "==3.0.4"
-        },
-        "font-fredoka-one": {
-            "hashes": [
-                "sha256:5eb2928eaf61d45271b38d88509ba27a73585dfb5b4760c727c75482e68207b7",
-                "sha256:cd5fd4682f7cc79107d006793717c41bf902093c570b576b8219766052297417",
-                "sha256:f177fdb46dcb7be565a68ece3a7b353a92cf038554a037f57b6303f6a5478ff8"
-            ],
-            "index": "pypi",
-            "version": "==0.0.4"
         },
         "idna": {
             "hashes": [
@@ -122,6 +113,14 @@
             ],
             "index": "pypi",
             "version": "==0.1.0"
+        },
+        "ttf-opensans": {
+            "hashes": [
+                "sha256:2ce65f171eb60fc16c15b31fc714cc5735533acb43b0637e5cebb612e2a9ac9c",
+                "sha256:bbc6e8e1f354a8a20970cb9e2a6fbd10cf2e855c9194e1d59268487d7d4d1e83"
+            ],
+            "index": "pypi",
+            "version": "==2020.10.30"
         },
         "urllib3": {
             "hashes": [

@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 from time import sleep
+from ttf_opensans import opensans
 
 from dataclasses import dataclass
 from typing import Optional, List
@@ -14,9 +15,12 @@ WHITE = 0
 BLACK = 1
 YELLOW = 2
 
-ARIAL_40 = ImageFont.truetype('C:\Windows\Fonts\\ariblk.ttf', 40)
-ARIAL_20 = ImageFont.truetype('C:\Windows\Fonts\\ariblk.ttf', 20)
-ARIAL_10 = ImageFont.truetype('C:\Windows\Fonts\\ariblk.ttf', 10)
+sans = str(opensans(font_weight=600, italic=False).path)
+
+ARIAL_40 = ImageFont.truetype(sans, 40)
+ARIAL_20 = ImageFont.truetype(sans, 20)
+ARIAL_10 = ImageFont.truetype(sans, 10)
+
 
 @dataclass
 class InternalDisplayState:
@@ -39,7 +43,7 @@ class Ui:
         while True:
             self.update()
             self.draw()
-            sleep(1)
+            sleep(10)
 
     def update(self):
         self.state.timestring = datetime.now().strftime("%I:%M %p").strip('0')

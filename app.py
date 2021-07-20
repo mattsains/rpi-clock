@@ -1,28 +1,24 @@
-from PIL import ImageTk, Image
+from PIL import Image
 import sys
 from src import do_later
-
 from src import ui
 
 is_linux = sys.platform == "linux"
 
 if (is_linux):
-    from inky import InkyPHAT
-    inky_display = InkyPHAT("yellow")
-
+    from inky import auto
+    inky_display = auto()
 
     def update(i: Image):
-        try:
-            inky_display.set_image(i)
-            inky_display.show()
-        except:
-            exit(0)
+        inky_display.set_image(i)
+        inky_display.show()
     
     ui = ui.Ui(update)
     do_later.Fork(ui.start)
 else:
     # hacky tkinter code for testing on a desktop environment
     from tkinter import Tk, Canvas
+    from PIL import ImageTk
     last_image = [None]
     root = Tk()
     root.title("Clock preview")

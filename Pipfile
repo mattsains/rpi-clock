@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 pillow = "*"
 tk = "*"
-font-fredoka-one = "*"
+ttf-opensans = "*"
 noaa-sdk = "*"
 pytz = "*"
 

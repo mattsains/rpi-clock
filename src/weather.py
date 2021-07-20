@@ -6,7 +6,7 @@ from pytz import UTC, timezone
 from noaa_sdk import NOAA
 from .do_later import Fork
 
-zip_code = 98102
+zip_code = '98102'
 
 noaa_time_format = '%Y-%m-%dT%H:%M:%S%z'
 
