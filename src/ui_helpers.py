@@ -11,5 +11,5 @@ def draw_outlined_text(drawer: ImageDraw, xy: Tuple[float, float], text: str, co
                 drawer.text((xy[0] + x_offset, xy[1] + y_offset), text, outline_color, *args, **kwargs)
 
 def draw_shadow_text(drawer: ImageDraw, xy: Tuple[float, float], text: str, color: int, shadow_color: int, *args, **kwargs):
-    drawer.text((xy[0] + 1, xy[1] + 1 ), text, shadow_color, *args, **kwargs)
+    drawer.text((xy[0] + 2, xy[1] + 2), text, shadow_color, *args, **kwargs)
     drawer.text((xy[0], xy[1]), text, color, *args, **kwargs)

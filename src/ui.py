@@ -17,7 +17,7 @@ YELLOW = 2
 
 sans = str(opensans(font_weight=1000, italic=False).path)
 
-SANS_40 = ImageFont.truetype(sans, 50)
+SANS_50 = ImageFont.truetype(sans, 50)
 SANS_20 = ImageFont.truetype(sans, 20)
 SANS_10 = ImageFont.truetype(sans, 10)
 
@@ -35,6 +35,7 @@ class Ui:
     """Blocking function to handle the UI"""
     def start(self):
         self.state = InternalDisplayState()
+        self.prevState = str(self.state)
 
         def respondToWeatherUpdate(weather: List[WeatherInfo]):
             self.state.weather = weather
@@ -42,8 +43,10 @@ class Ui:
 
         while True:
             self.update()
-            self.draw()
-            sleep(10)
+            if (str(self.state) != self.prevState):
+                self.draw()
+                self.prevState = str(self.state)
+            sleep(1)
 
     def update(self):
         self.state.timestring = datetime.now().strftime("%I:%M %p").strip('0')
@@ -57,8 +60,8 @@ class Ui:
         ], 'RGB')
         img_drawer = ImageDraw.Draw(self.img)
 
-        time_font_offset = SANS_40.getsize(self.state.timestring)
-        draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 0), self.state.timestring, BLACK, YELLOW, font=SANS_40)
+        time_font_offset = SANS_50.getsize(self.state.timestring)
+        draw_shadow_text(img_drawer, (int((display_size[0] - time_font_offset[0])/2), 0), self.state.timestring, BLACK, YELLOW, font=SANS_50)
 
         if (self.state.weather != None):
             position = 5
